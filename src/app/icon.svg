@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="background" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14283b" />
+      <stop offset="1" stop-color="#211c35" />
+    </linearGradient>
+    <linearGradient id="crossbar" x1="23" y1="35" x2="42" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe28a" />
+      <stop offset="1" stop-color="#ff6689" />
+    </linearGradient>
+  </defs>
+  <style>
+    @keyframes twinkle {
+      0%, 100% { opacity: .55; transform: scale(.8); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    .spark { transform-box: fill-box; transform-origin: center; animation: twinkle 1.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .spark { animation: none; }
+    }
+  </style>
+  <rect x="1" y="1" width="62" height="62" rx="17" fill="url(#background)" />
+  <rect x="1.5" y="1.5" width="61" height="61" rx="16.5" fill="none" stroke="#fff" stroke-opacity=".18" />
+  <path d="M11 51 25.4 15.8a7.1 7.1 0 0 1 13.2 0L53 51H42.7l-3.1-8.5H24.3L21.2 51H11Zm17-18h8.9l-4.5-12.2L28 33Z" fill="#f7f3e8" />
+  <path d="M23.5 37h17l-2.1 6.2H25.7L23.5 37Z" fill="url(#crossbar)" />
+  <path class="spark" d="m49 8 1.8 5.2L56 15l-5.2 1.8L49 22l-1.8-5.2L42 15l5.2-1.8L49 8Z" fill="#7de7e1" />
+</svg>
