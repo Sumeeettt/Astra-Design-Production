@@ -94,7 +94,7 @@ export default function AppLayout({ children }) {
         />
       )}
 
-      <main className={`relative z-10 min-w-0 bg-transparent p-6 ${showSidebar ? "md:col-start-2" : "md:col-span-1"}`}>
+      <main className={`relative z-10 min-w-0 bg-transparent px-6 pb-6 ${isLoginPage ? "pt-6" : "pt-20"} ${showSidebar ? "md:col-start-2" : "md:col-span-1"}`}>
         {!sidebarOpen && !isLoginPage && (
           <button
             onClick={() => setSidebarOpen(true)}
