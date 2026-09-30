@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const projects = [
@@ -55,10 +56,19 @@ const projects = [
 ];
 
 const statuses = ["All", "In Design", "Awaiting Approval", "In Production", "Completed"];
+const cardThemes = [
+  "dark:border-rose-300/30 dark:bg-[#2b1b28] dark:hover:border-rose-300 dark:hover:shadow-[0_18px_40px_rgba(244,63,94,0.22)]",
+  "dark:border-cyan-300/30 dark:bg-[#172a35] dark:hover:border-cyan-300 dark:hover:shadow-[0_18px_40px_rgba(34,211,238,0.2)]",
+  "dark:border-amber-300/30 dark:bg-[#302719] dark:hover:border-amber-300 dark:hover:shadow-[0_18px_40px_rgba(251,191,36,0.2)]",
+  "dark:border-violet-300/30 dark:bg-[#252039] dark:hover:border-violet-300 dark:hover:shadow-[0_18px_40px_rgba(167,139,250,0.22)]",
+  "dark:border-emerald-300/30 dark:bg-[#1b3029] dark:hover:border-emerald-300 dark:hover:shadow-[0_18px_40px_rgba(52,211,153,0.2)]",
+  "dark:border-sky-300/30 dark:bg-[#1b293a] dark:hover:border-sky-300 dark:hover:shadow-[0_18px_40px_rgba(56,189,248,0.2)]",
+];
 
 export default function Projects() {
   const [query, setQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState("All");
+  const [expandedProject, setExpandedProject] = useState(null);
   const normalizedQuery = query.trim().toLowerCase();
   const visibleProjects = projects.filter((project) => {
     const matchesQuery = [project.name, project.type, project.client, project.location]
@@ -67,15 +77,15 @@ export default function Projects() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
 
-      <header className="flex flex-wrap items-end justify-between gap-4">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <section>
           <h1 className="text-3xl font-bold">
             Projects
           </h1>
 
-          <p className="mt-2 text-gray-600">
+          <p className="mt-1 text-gray-600">
             Manage your event design projects.
           </p>
         </section>
@@ -91,7 +101,7 @@ export default function Projects() {
         aria-label="Search projects"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        className="w-full rounded-lg border border-rose-100 bg-white/90 p-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
+        className="w-full rounded-lg border border-rose-100 bg-white/90 p-2.5 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-200"
       />
 
       <nav aria-label="Filter projects by status" className="flex gap-2 overflow-x-auto pb-1">
@@ -112,49 +122,62 @@ export default function Projects() {
         ))}
       </nav>
 
-      <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
 
-        {visibleProjects.map((project) => (
+        {visibleProjects.map((project, index) => (
           <article
             key={project.name}
-            className="group flex h-[29rem] flex-col overflow-hidden rounded-xl border border-white bg-white/95 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-rose-200 hover:shadow-lg"
+            className={`group relative isolate flex min-h-[19rem] flex-col overflow-hidden rounded-xl border border-white bg-slate-900 text-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.015] hover:border-rose-200 hover:shadow-xl dark:text-slate-100 ${cardThemes[index % cardThemes.length]}`}
           >
-
-            <img
+            <Image
               src={project.image}
               alt={project.name}
-              className="h-48 w-full shrink-0 object-cover transition-transform duration-300 group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="-z-20 object-cover transition duration-700 group-hover:scale-110 group-hover:brightness-110"
             />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-[#07131f]/95 via-[#07131f]/55 to-[#07131f]/10 transition-colors duration-300 group-hover:from-[#07131f]/85" />
 
-            <section className="flex flex-1 flex-col p-5">
-
-              <h2 className="text-xl font-semibold">
+            <section className="relative z-10 flex flex-1 flex-col justify-end p-4">
+              <h2 className="text-xl font-semibold leading-tight text-white">
                 {project.name}
               </h2>
-
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-white/80">
                 {project.type}
               </p>
 
-              <p className="mt-4 text-sm">
-                <strong>Client:</strong> {project.client}
-              </p>
-
-              <p className="mt-1 text-sm">
-                <strong>Location:</strong> {project.location}
-              </p>
-
-              <p className="mt-4 inline-block w-fit rounded-full bg-gradient-to-r from-rose-100 to-amber-100 px-3 py-1 text-sm text-rose-900">
-                {project.status}
-              </p>
-
-              <Link
-                href={project.status === "In Production" ? "/production" : "/design-studio"}
-                className="mt-auto block pt-5 text-sm font-semibold text-rose-700 transition-colors hover:text-orange-700 hover:underline"
+              <div
+                id={`project-details-${index}`}
+                className={`overflow-hidden transition-all duration-300 ${
+                  expandedProject === project.name
+                    ? "mt-3 max-h-32 opacity-100"
+                    : "mt-0 max-h-0 opacity-0 group-hover:mt-3 group-hover:max-h-32 group-hover:opacity-100 group-focus-within:mt-3 group-focus-within:max-h-32 group-focus-within:opacity-100"
+                }`}
               >
-                {project.status === "In Production" ? "View production specs" : "Open design"} →
-              </Link>
+                <p className="text-sm text-white/90"><strong>Client:</strong> {project.client}</p>
+                <p className="mt-1 text-sm text-white/90"><strong>Location:</strong> {project.location}</p>
+                <Link
+                  href={project.status === "In Production" ? "/production" : "/design-studio"}
+                  className="mt-3 block text-sm font-semibold text-rose-200 transition-all duration-200 hover:translate-x-1 hover:text-amber-200 hover:underline"
+                >
+                  {project.status === "In Production" ? "View production specs" : "Open design"} →
+                </Link>
+              </div>
 
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <span className="inline-block w-fit rounded-full bg-gradient-to-r from-rose-100 to-amber-100 px-3 py-1 text-xs font-medium text-rose-900">
+                  {project.status}
+                </span>
+                <button
+                  type="button"
+                  aria-expanded={expandedProject === project.name}
+                  aria-controls={`project-details-${index}`}
+                  onClick={() => setExpandedProject(expandedProject === project.name ? null : project.name)}
+                  className="rounded-full border border-white/50 bg-black/25 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  {expandedProject === project.name ? "Less" : "Details"}
+                </button>
+              </div>
             </section>
 
           </article>

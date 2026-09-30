@@ -6,32 +6,32 @@ import { usePathname } from "next/navigation";
 export default function Sidebar({ onClose }) {
   const pathname = usePathname();
   const navigationItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Projects", href: "/projects" },
-    { label: "AI Studio", href: "/ai-studio" },
-    { label: "Design Studio", href: "/design-studio" },
-    { label: "Production", href: "/production" },
+    { label: "Dashboard", href: "/dashboard", hover: "hover:bg-[#392430] hover:text-[#ffdbe3]" },
+    { label: "Projects", href: "/projects", hover: "hover:bg-[#3a2e1c] hover:text-[#ffdf91]" },
+    { label: "AI Studio", href: "/ai-studio", hover: "hover:bg-[#203b43] hover:text-[#b8f4f3]" },
+    { label: "Design Studio", href: "/design-studio", hover: "hover:bg-[#28243d] hover:text-[#d9ceff]" },
+    { label: "Production", href: "/production", hover: "hover:bg-[#203a30] hover:text-[#c4f4d4]" },
   ];
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto overscroll-contain border-r border-rose-200 bg-white/90 p-6 shadow-lg backdrop-blur-md">
+    <aside className="fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto overscroll-contain border-r border-[#17314d] bg-[radial-gradient(circle_at_top,rgba(77,110,151,0.25),transparent_35%),linear-gradient(180deg,#071b2d_0%,#071a2a_100%)] p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-md transition-colors duration-300 dark:border-[#17314d] dark:bg-[radial-gradient(circle_at_top,rgba(77,110,151,0.25),transparent_35%),linear-gradient(180deg,#071b2d_0%,#071a2a_100%)]">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl">
           <Link
             href="/dashboard"
             aria-label="ASTRA home"
-            className="group relative inline-block pb-1 font-serif font-semibold tracking-[0.14em] text-rose-900 transition-colors duration-200 hover:text-orange-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-600"
+            className="group relative inline-block pb-1 font-serif font-semibold tracking-[0.14em] text-[#f4d4db] transition-colors duration-200 hover:text-[#ffdbe3] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-600"
           >
             ASTRA
             <span
               aria-hidden="true"
-              className="absolute bottom-0 left-0 h-0.5 w-0 bg-amber-500 transition-all duration-300 group-hover:w-full group-focus-visible:w-full"
+              className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#e4a05a] transition-all duration-300 group-hover:w-full group-focus-visible:w-full"
             />
           </Link>
         </h1>
         <button
           onClick={onClose}
-          className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-red-50 hover:text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          className="rounded-lg p-2 text-[#dfe6f7] transition-colors hover:bg-[#0f294a] hover:text-[#ffdbe3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           aria-label="Hide Sidebar"
         >
           ☰
@@ -39,7 +39,7 @@ export default function Sidebar({ onClose }) {
       </div>
 
       <nav className="mt-8 space-y-2">
-        {navigationItems.map(({ label, href }) => {
+        {navigationItems.map(({ label, href, hover }) => {
           const isActive = pathname === href;
 
           return (
@@ -47,10 +47,10 @@ export default function Sidebar({ onClose }) {
               key={href}
               href={href}
               aria-current={isActive ? "page" : undefined}
-              className={`block rounded-lg p-3 transition-all duration-200 hover:translate-x-1 hover:bg-gradient-to-r hover:from-rose-300 hover:via-orange-200 hover:to-amber-200 hover:text-rose-950 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 ${
+              className={`block rounded-xl p-3 transition-all duration-300 hover:translate-x-1 hover:scale-[1.02] hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 ${
                 isActive
-                  ? "bg-gradient-to-r from-rose-200 via-orange-100 to-amber-200 font-semibold text-rose-900 shadow-sm"
-                  : "text-gray-700"
+                  ? "bg-gradient-to-r from-[#d94d64] via-[#cb4d57] to-[#b96442] font-semibold text-white shadow-[0_12px_24px_rgba(192,61,81,0.28)]"
+                  : `text-[#e8eefb] ${hover}`
               }`}
             >
               {label}
