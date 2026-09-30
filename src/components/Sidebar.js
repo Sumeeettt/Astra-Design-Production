@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 export default function Sidebar({ onClose }) {
   const pathname = usePathname();
   const navigationItems = [
+    { label: "Home", href: "/", hover: "hover:bg-[#28243d] hover:text-[#d9ceff]" },
     { label: "Dashboard", href: "/dashboard", hover: "hover:bg-[#392430] hover:text-[#ffdbe3]" },
     { label: "Projects", href: "/projects", hover: "hover:bg-[#3a2e1c] hover:text-[#ffdf91]" },
     { label: "AI Studio", href: "/ai-studio", hover: "hover:bg-[#203b43] hover:text-[#b8f4f3]" },
@@ -18,7 +19,7 @@ export default function Sidebar({ onClose }) {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl">
           <Link
-            href="/dashboard"
+            href="/"
             aria-label="ASTRA home"
             className="group relative inline-block pb-1 font-serif font-semibold tracking-[0.14em] text-[#f4d4db] transition-colors duration-200 hover:text-[#ffdbe3] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-600"
           >

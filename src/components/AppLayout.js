@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -57,20 +58,30 @@ export default function AppLayout({ children }) {
         </>
       )}
 
-      {mounted && !isLoginPage && (
-        <motion.button
-          type="button"
-          onClick={toggleTheme}
-          aria-label="Toggle color mode"
-          title={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          whileHover={{ scale: 1.08, rotate: 6 }}
-          whileTap={{ scale: 0.96 }}
-          className="fixed right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-[#e8d9d1] bg-white/85 text-lg shadow-[0_10px_25px_rgba(15,23,42,0.12)] backdrop-blur-md transition-colors duration-200 dark:border-[#2b3f5f] dark:bg-[#0f213b]/90 dark:text-[#edf2ff]"
-        >
-          <span aria-hidden="true" className="leading-none">
-            {resolvedTheme === "dark" ? "☀️" : "🌙"}
-          </span>
-        </motion.button>
+      {!isLoginPage && (
+        <div className="fixed right-4 top-4 z-50 flex items-center gap-2">
+          <Link
+            href="/login"
+            className="rounded-full border border-[#e8d9d1] bg-white/90 px-4 py-2 text-sm font-semibold text-slate-800 shadow-[0_10px_25px_rgba(15,23,42,0.12)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-800 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 dark:border-[#2b3f5f] dark:bg-[#0f213b]/95 dark:text-[#edf2ff] dark:hover:border-rose-300/60 dark:hover:bg-[#392430] dark:hover:text-rose-100"
+          >
+            Login
+          </Link>
+          {mounted && (
+            <motion.button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle color mode"
+              title={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              whileHover={{ scale: 1.08, rotate: 6 }}
+              whileTap={{ scale: 0.96 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8d9d1] bg-white/85 text-lg shadow-[0_10px_25px_rgba(15,23,42,0.12)] backdrop-blur-md transition-colors duration-200 dark:border-[#2b3f5f] dark:bg-[#0f213b]/90 dark:text-[#edf2ff]"
+            >
+              <span aria-hidden="true" className="leading-none">
+                {resolvedTheme === "dark" ? "☀️" : "🌙"}
+              </span>
+            </motion.button>
+          )}
+        </div>
       )}
 
       {showSidebar && <Sidebar onClose={() => setSidebarOpen(false)} />}
